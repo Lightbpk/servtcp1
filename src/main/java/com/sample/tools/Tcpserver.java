@@ -6,7 +6,9 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+//--------------------------------------------------------------------------
+//---------------------------Lisning 127.0.0.1------------------------------
+//--------------------------------------------------------------------------
 public class Tcpserver {
 
     private ServerSocket serverSocket;
