@@ -4,8 +4,9 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.concurrent.Callable;
 
-public class MultiSocket implements Runnable {
+public class MultiSocket implements Callable {
 private Socket socket;
 private InputStream is = null;
 private String nextLine;
@@ -13,19 +14,20 @@ boolean runnable = true;
     MultiSocket(Socket socket){
         this.socket = socket;
     }
-    public void run() {
+    public String call() {
         while (runnable) {
             try {
                 is = socket.getInputStream();
                 DataInputStream in = new DataInputStream(is);
                 nextLine = in.readUTF();
-                String usr = nextLine.substring(0,nextLine.indexOf(" "));
+                String usr = nextLine.substring(0, nextLine.indexOf(" "));
                 System.out.println(nextLine);
-                System.out.println(usr);
+                //System.out.println(usr);
             } catch (IOException e) {
                 runnable = false;
             }
 
         }
+        return "Ass";
     }
 }
