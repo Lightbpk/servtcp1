@@ -21,7 +21,6 @@ boolean runnable = true;
                 nextLine = in.readUTF();
                 String usr = nextLine.substring(0,nextLine.indexOf(" "));
                 System.out.println(nextLine);
-                System.out.println(usr);
             } catch (IOException e) {
                 runnable = false;
             }

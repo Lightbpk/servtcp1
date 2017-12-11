@@ -13,6 +13,7 @@ public class Tcpserver {
 
     private ServerSocket serverSocket;
     public Socket socket = null;
+    private int i=0;
     ExecutorService exec = Executors.newCachedThreadPool();
     public void init(int portnum) {
         System.out.println("lisening 127.0.0.1 port " + portnum);
@@ -31,6 +32,8 @@ public class Tcpserver {
                 socket = serverSocket.accept();
                 System.out.println("accepted");
                 exec.execute(new MultiSocket(socket));
+                i++;
+                System.out.println(i);
             } catch (IOException e) {
                 e.printStackTrace();
             }
