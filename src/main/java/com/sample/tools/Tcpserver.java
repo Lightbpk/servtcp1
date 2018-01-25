@@ -12,9 +12,9 @@ import java.util.concurrent.Executors;
 public class Tcpserver {
 
     private ServerSocket serverSocket;
-    public Socket socket = null;
+    private Socket socket = null;
     private int i=0;
-    ExecutorService exec = Executors.newCachedThreadPool();
+    private ExecutorService exec = Executors.newCachedThreadPool();
     public void init(int portnum) {
         System.out.println("lisening 127.0.0.1 port " + portnum);
         try {
@@ -24,15 +24,15 @@ public class Tcpserver {
         }
     }
 //--------------------------------------------------------------------------
-//-----------------------Start Multiserver Factory--------------------------
+//-----------------------Start MultiServer Factory--------------------------
 //--------------------------------------------------------------------------
     public void start(){
         while (!serverSocket.isClosed()){
             try {
                 socket = serverSocket.accept();
                 System.out.println("accepted");
-                exec.execute(new MultiSocket(socket));
                 i++;
+                exec.execute(new MultiSocket(socket,i));
                 System.out.println(i);
             } catch (IOException e) {
                 e.printStackTrace();
