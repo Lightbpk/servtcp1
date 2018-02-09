@@ -20,9 +20,10 @@ private Connection connection;
 private boolean runnable = true;
 private Date date;
 private String msg;
-    MultiSocket(Socket socket, int i){
+    MultiSocket(Socket socket, int i, Connection connection){
         this.socket = socket;
         this.i = i;
+        this.connection = connection;
     }
     public void run() {
         try {
@@ -38,17 +39,7 @@ private String msg;
             e.printStackTrace();
             System.out.println("!");
         }
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/tcpservdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-                    "root",
-                    "toor");
-            System.out.println("connection ok");
-            statement = connection.createStatement();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("!");
-        }
         while (runnable) {
             try {
                 is = socket.getInputStream();
@@ -58,6 +49,7 @@ private String msg;
                 msg = nextLine.substring(nextLine.indexOf(" "),nextLine.length());
                 System.out.println("in thread "+i+" "+nextLine);
                 date = new Date();
+                statement = connection.createStatement();
                 statement.execute("CREATE TABLE IF NOT EXISTS messages(id integer primary key auto_increment, THREAD integer, USERS varchar(50), MESSAGES varchar(100), DATE varchar(50));");
                 statement.execute("INSERT INTO messages (THREAD, USERS, MESSAGES, DATE) VALUES ("+i+",'"+usr+"','"+msg+"','"+date.toString()+"')");
             } catch (IOException e) {
