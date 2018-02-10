@@ -29,6 +29,8 @@ private String msg;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             System.out.println("driver ok");
+            // объедини три catch в один, учитывая что в каждом catch ты делаешь одно и тоже
+            // иначе занимает много места на экране
         } catch (InstantiationException e) {
             e.printStackTrace();
             System.out.println("!");
@@ -50,6 +52,9 @@ private String msg;
                 System.out.println("in thread "+i+" "+nextLine);
                 date = new Date();
                 statement = connection.createStatement();
+                // все операции с изменением данных следует делать при старте приложения
+                // иначе есть риск гронуть всю схему во время работы что влечет за собой потерю данных
+                // плюс негативно сказывается на производительности
                 statement.execute("CREATE TABLE IF NOT EXISTS messages(id integer primary key auto_increment, THREAD integer, USERS varchar(50), MESSAGES varchar(100), DATE varchar(50));");
                 statement.execute("INSERT INTO messages (THREAD, USERS, MESSAGES, DATE) VALUES ("+i+",'"+usr+"','"+msg+"','"+date.toString()+"')");
             } catch (IOException e) {
